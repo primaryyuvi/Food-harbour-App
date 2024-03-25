@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -56,36 +57,49 @@ fun Heading() {
 }
 
 @Composable
-fun Screen1()
-{
+fun Screen1() {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(red = 7, green = 31, blue = 27, alpha = 255))
+            .background(
+            Color(red = 7, green = 31, blue = 27, alpha = 255),
+        ),
     ) {
-       Heading()
-        Text(
-            text = "Welcome!",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(bottom = 16.dp),
-            color = Color.White
-        )
-        Text(
-            text = "Sign up to donate food and help the needy!",
-            color = Color.White,
-        )
-        Spacer(modifier = Modifier.height(300.dp))
-        AccessButtons()
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(32.dp)
+        ) {
+            Heading()
+            Text(
+                text = "Welcome!",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(bottom = 16.dp),
+                color = Color.White
+            )
+            Text(
+                text = "Sign up to donate food and help the needy!",
+                color = Color.White,
+            )
+        }
+            Spacer(modifier = Modifier.height(280.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White, RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                AccessButtons()
+            }
+        }
     }
-}
-
 @Composable
 fun AccessButtons() {
     Column(
-        modifier = Modifier.padding(top = 32.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -95,14 +109,10 @@ fun AccessButtons() {
                 .widthIn(min = 280.dp)
                 .heightIn(min = 48.dp),
             colors = ButtonDefaults.textButtonColors(
-                containerColor = Color.White,
-                contentColor = Color(red = 7, green = 31, blue = 27, alpha = 255)
+                containerColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
+                contentColor = Color.White
             ),
-            elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 10.dp,
-                pressedElevation = 0.dp
-            ),
-            border = BorderStroke(1.dp, Color.White)
+
         ){
             Text(text = "Login")
         }
@@ -112,14 +122,9 @@ fun AccessButtons() {
                 .widthIn(min = 280.dp)
                 .heightIn(min = 48.dp),
             colors = ButtonDefaults.textButtonColors(
-                containerColor = Color.White,
-                contentColor = Color(red = 7, green = 31, blue = 27, alpha = 255)
+                containerColor =  Color(red = 7, green = 31, blue = 27, alpha = 255),
+                contentColor =  Color.White
             ),
-            elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 10.dp,
-                pressedElevation = 0.dp
-            ),
-            border = BorderStroke(1.dp, Color.White)
         ) {
             Text(text = "Register")
         }
