@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "502959066191",
+    "firebase_url": "https://food-harbor-69cbd-default-rtdb.firebaseio.com",
     "project_id": "food-harbor-69cbd",
     "storage_bucket": "food-harbor-69cbd.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.yuvarajcode.food_harbor"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "502959066191-os211up75g9qlgoh9sddh7j209f867ou.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yuvarajcode.food_harbor",
+            "certificate_hash": "98bf043ae166d1b3664696e19643fc1eb3e8d41b"
+          }
+        },
+        {
+          "client_id": "502959066191-evtot7b9ah87oeh8urgonnik9a03be1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCoZPcRYOWMQpsZlzhFVLWOhsX1jxYLsDU"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502959066191-evtot7b9ah87oeh8urgonnik9a03be1g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

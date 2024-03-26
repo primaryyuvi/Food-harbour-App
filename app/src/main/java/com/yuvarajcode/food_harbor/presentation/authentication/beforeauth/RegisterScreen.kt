@@ -1,4 +1,4 @@
-package com.yuvarajcode.food_harbor.beforeauth
+package com.yuvarajcode.food_harbor.presentation.authentication.beforeauth
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
