@@ -1,4 +1,4 @@
-package com.yuvarajcode.food_harbor.presentation.authentication
+package com.yuvarajcode.food_harbor.presentation.authentication.beforeauth
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.foundation.Image
@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.yuvarajcode.food_harbor.presentation.authentication.AuthenticationViewModel
 import kotlinx.coroutines.delay
 
 @Composable
