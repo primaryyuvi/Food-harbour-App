@@ -1,13 +1,16 @@
 package com.yuvarajcode.food_harbor.presentation.profile
 
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.yuvarajcode.food_harbor.presentation.main.BottomNavigation
 import com.yuvarajcode.food_harbor.presentation.main.BottomNavigationScreens
+import com.yuvarajcode.food_harbor.utilities.ResponseState
 
 @Composable
 fun ProfileScreen(
@@ -21,6 +24,7 @@ fun ProfileScreen(
             )
         }
     ) {
+
         Text(
             text = "Profile Screen",
             modifier = Modifier.padding(it)
