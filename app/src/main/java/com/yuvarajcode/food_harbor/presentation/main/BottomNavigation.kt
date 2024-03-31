@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.rounded.Favorite
@@ -20,11 +19,11 @@ import androidx.compose.material.icons.twotone.Menu
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.yuvarajcode.food_harbor.utilities.Screens
@@ -58,8 +57,10 @@ fun BottomNavigation(
                         .clickable {
                             navController.navigate(item.route)
                         }
-                        .padding(16.dp)
-                        .size(24.dp),
+                        .padding(8.dp)
+                        .padding(top = 8.dp)
+                        .size(24.dp)
+                        .align(Alignment.CenterHorizontally),
                     colorFilter = if (selectedButton == item) {
                         ColorFilter.tint(Color.White)
                     } else {
@@ -73,7 +74,8 @@ fun BottomNavigation(
                         Color.White
                     } else {
                         Color.Gray
-                    }
+                    },
+                    modifier = Modifier.padding(8.dp)
                 )
             }
         }
