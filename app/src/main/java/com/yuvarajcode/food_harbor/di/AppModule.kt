@@ -1,11 +1,22 @@
 package com.yuvarajcode.food_harbor.di
 
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.yuvarajcode.food_harbor.data.AuthenticationRepositoryImpl
+import com.yuvarajcode.food_harbor.data.UserRepositoryImpl
+import com.yuvarajcode.food_harbor.domain.repository.AuthenticationRepository
+import com.yuvarajcode.food_harbor.domain.repository.UserRepository
+import com.yuvarajcode.food_harbor.domain.usecases.authenticationUseCases.AuthenticationUseCases
+import com.yuvarajcode.food_harbor.domain.usecases.authenticationUseCases.FireBaseSignIn
+import com.yuvarajcode.food_harbor.domain.usecases.authenticationUseCases.FirebaseRegister
+import com.yuvarajcode.food_harbor.domain.usecases.authenticationUseCases.FirebaseSignOut
+import com.yuvarajcode.food_harbor.domain.usecases.authenticationUseCases.GetAuthState
+import com.yuvarajcode.food_harbor.domain.usecases.authenticationUseCases.IsUserAuthenticated
+import com.yuvarajcode.food_harbor.domain.usecases.userUseCases.GetUserDetails
+import com.yuvarajcode.food_harbor.domain.usecases.userUseCases.SetUserDetails
+import com.yuvarajcode.food_harbor.domain.usecases.userUseCases.UserUseCases
 import com.yuvarajcode.food_harbor.data.NewsRepositoryImpl
 import com.yuvarajcode.food_harbor.domain.repository.AuthenticationRepository
 import com.yuvarajcode.food_harbor.domain.repository.NewsApiService
@@ -76,12 +87,27 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideUserRepository(
+        firestore: FirebaseFirestore,
+    ): UserRepository {
+        return UserRepositoryImpl(
+            firestore,
+        )
+      @Provides
+      @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .build()
     }
-
     @Provides
+    @Singleton
+    fun provideUserUseCases(
+        userRepositoryImpl: UserRepository,
+    ) = UserUseCases(
+        getUserDetails = GetUserDetails(userRepositoryImpl),
+        setUserDetails = SetUserDetails(userRepositoryImpl),
+    )
+     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
@@ -101,5 +127,4 @@ object AppModule {
     @Singleton
     fun provideNewsRepository(newsApiService: NewsApiService): NewsRepository {
         return NewsRepositoryImpl(newsApiService)
-    }
 }

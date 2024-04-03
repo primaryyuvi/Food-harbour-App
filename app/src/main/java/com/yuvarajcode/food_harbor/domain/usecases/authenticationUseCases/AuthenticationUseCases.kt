@@ -1,4 +1,4 @@
-package com.yuvarajcode.food_harbor.domain.usecases
+package com.yuvarajcode.food_harbor.domain.usecases.authenticationUseCases
 
 data class AuthenticationUseCases(
     val isUserAuthenticated: IsUserAuthenticated,

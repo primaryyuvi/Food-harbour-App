@@ -14,14 +14,19 @@ import com.yuvarajcode.food_harbor.presentation.main.DonationScreen
 import com.yuvarajcode.food_harbor.presentation.main.HomeScreen
 import com.yuvarajcode.food_harbor.presentation.main.news.NewsScreen
 import com.yuvarajcode.food_harbor.presentation.main.OrganisationScreen
+import com.yuvarajcode.food_harbor.presentation.profile.DonationHistoryScreen
+import com.yuvarajcode.food_harbor.presentation.profile.ProfileEditScreen
 import com.yuvarajcode.food_harbor.presentation.main.news.NewsViewModel
 import com.yuvarajcode.food_harbor.presentation.profile.ProfileScreen
+import com.yuvarajcode.food_harbor.presentation.profile.ProfileStateScreen
+import com.yuvarajcode.food_harbor.presentation.profile.ProfileViewmodel
 import com.yuvarajcode.food_harbor.utilities.Screens
 
 @Composable
 fun NavigationHost(
     navController: NavHostController,
     authViewModel : AuthenticationViewModel,
+    profileViewmodel : ProfileViewmodel
     newsViewModel: NewsViewModel
 ){
     NavHost(
@@ -52,11 +57,17 @@ fun NavigationHost(
         composable(Screens.OrganisationScreen.route){
             OrganisationScreen(navController = navController)
         }
-        composable(Screens.ProfileScreen.route){
-            ProfileScreen(navController = navController)
+        composable(Screens.ProfileStateScreen.route){
+            ProfileStateScreen(navController = navController,profileViewmodel = profileViewmodel)
         }
         composable(Screens.NewsScreen.route){
             NewsScreen(navController = navController,newsViewModel)
+        }
+        composable(Screens.ProfileEditScreen.route){
+            ProfileEditScreen(navController = navController,profileViewmodel = profileViewmodel)
+        }
+        composable(Screens.DonationHistoryScreen.route){
+            DonationHistoryScreen()
         }
     }
 }

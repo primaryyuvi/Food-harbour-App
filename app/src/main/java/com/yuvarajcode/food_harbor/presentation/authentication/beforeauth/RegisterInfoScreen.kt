@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -50,7 +52,7 @@ fun RegisterInfoScreen(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(150.dp))
+            Spacer(modifier = Modifier.height(130.dp))
             RegisterInfoHeading()
             RegisterInfoButtons(
                 navController = navController,
@@ -76,6 +78,7 @@ fun RegisterInfoButtons(
             .background(Color.White, RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
             .fillMaxSize()
             .padding(16.dp)
+            .verticalScroll(rememberScrollState())
     ){
         Card(
             onClick = {
@@ -153,7 +156,8 @@ fun RegisterInfoButtons(
                     launchSingleTop = true
                 }
             },
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(16.dp)
                 .fillMaxWidth(),
             colors = ButtonDefaults.textButtonColors(
                 contentColor = Color.White,
