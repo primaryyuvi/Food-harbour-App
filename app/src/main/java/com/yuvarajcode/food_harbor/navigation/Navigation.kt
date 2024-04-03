@@ -1,24 +1,22 @@
 package com.yuvarajcode.food_harbor.navigation
 
-import android.provider.ContactsContract.CommonDataKinds.Organization
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.yuvarajcode.food_harbor.presentation.authentication.AuthenticationViewModel
 import com.yuvarajcode.food_harbor.presentation.authentication.auth.LoginScreen
 import com.yuvarajcode.food_harbor.presentation.authentication.auth.RegisterScreen
-import com.yuvarajcode.food_harbor.presentation.authentication.beforeauth.RegisterInfoButtons
 import com.yuvarajcode.food_harbor.presentation.authentication.beforeauth.RegisterInfoScreen
 import com.yuvarajcode.food_harbor.presentation.authentication.beforeauth.Screen1
 import com.yuvarajcode.food_harbor.presentation.authentication.beforeauth.SplashScreen1
 import com.yuvarajcode.food_harbor.presentation.main.DonationScreen
 import com.yuvarajcode.food_harbor.presentation.main.HomeScreen
-import com.yuvarajcode.food_harbor.presentation.main.NewsScreen
+import com.yuvarajcode.food_harbor.presentation.main.news.NewsScreen
 import com.yuvarajcode.food_harbor.presentation.main.OrganisationScreen
 import com.yuvarajcode.food_harbor.presentation.profile.DonationHistoryScreen
 import com.yuvarajcode.food_harbor.presentation.profile.ProfileEditScreen
+import com.yuvarajcode.food_harbor.presentation.main.news.NewsViewModel
 import com.yuvarajcode.food_harbor.presentation.profile.ProfileScreen
 import com.yuvarajcode.food_harbor.presentation.profile.ProfileStateScreen
 import com.yuvarajcode.food_harbor.presentation.profile.ProfileViewmodel
@@ -29,6 +27,7 @@ fun NavigationHost(
     navController: NavHostController,
     authViewModel : AuthenticationViewModel,
     profileViewmodel : ProfileViewmodel
+    newsViewModel: NewsViewModel
 ){
     NavHost(
         navController = navController,
@@ -62,7 +61,7 @@ fun NavigationHost(
             ProfileStateScreen(navController = navController,profileViewmodel = profileViewmodel)
         }
         composable(Screens.NewsScreen.route){
-            NewsScreen(navController = navController)
+            NewsScreen(navController = navController,newsViewModel)
         }
         composable(Screens.ProfileEditScreen.route){
             ProfileEditScreen(navController = navController,profileViewmodel = profileViewmodel)

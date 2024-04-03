@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.yuvarajcode.food_harbor.navigation.NavigationHost
 import com.yuvarajcode.food_harbor.presentation.authentication.AuthenticationViewModel
 import com.yuvarajcode.food_harbor.presentation.profile.ProfileViewmodel
+import com.yuvarajcode.food_harbor.presentation.main.news.NewsViewModel
 import com.yuvarajcode.food_harbor.ui.theme.FoodHarborTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,16 +25,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FoodHarborTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     val navController = rememberNavController()
                     val authViewModel : AuthenticationViewModel = hiltViewModel()
+                    val newsViewModel : NewsViewModel = hiltViewModel()
                     val profileViewmodel : ProfileViewmodel = hiltViewModel()
                     NavigationHost(
                         navController = navController,
                         authViewModel = authViewModel,
                         profileViewmodel = profileViewmodel
-                    )
+                        newsViewModel = newsViewModel
+                    )     
                 }
             }
         }
