@@ -1,5 +1,6 @@
 package com.yuvarajcode.food_harbor.presentation.profile
 
+import android.net.Uri
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -17,14 +18,19 @@ class ProfileViewmodel @Inject constructor(
     private val userUseCases : UserUseCases,
     auth :FirebaseAuth
 ) : ViewModel(){
-    val userId= auth.currentUser?.uid
+    private val userId= auth.currentUser?.uid
     private val _getData = mutableStateOf<ResponseState<User?>>(ResponseState.Success(null))
     val getData : State<ResponseState<User?>> = _getData
 
-    private val _setData = mutableStateOf<ResponseState<Boolean>>(ResponseState.Success(false))
-    val setData : State<ResponseState<Boolean>> = _setData
+    private val _setData = mutableStateOf<ResponseState<Boolean?>>(ResponseState.Success(null))
+    val setData : State<ResponseState<Boolean?>> = _setData
 
-    fun getUserDetails(){
+    var realObj : User = User()
+
+    init {
+        getUserDetails()
+    }
+    private fun getUserDetails(){
         viewModelScope.launch {
             if(userId!= null) {
                 userUseCases.getUserDetails(userId).collect {
@@ -34,11 +40,14 @@ class ProfileViewmodel @Inject constructor(
         }
     }
 
+    fun setUserState(){
+        _setData.value = ResponseState.Success(null)
+    }
     fun setUserDetails(
         username : String,
         email : String,
         password:String,
-        profilePicture:String,
+        profilePicture: String,
         phone : String
     ){
         viewModelScope.launch {
