@@ -30,7 +30,7 @@ import com.yuvarajcode.food_harbor.utilities.Screens
 
 enum class BottomNavigationScreens(val route: String,val icon:ImageVector) {
     Home(Screens.HomeScreen.route,Icons.Outlined.Home),
-    Profile(Screens.ProfileScreen.route,Icons.Outlined.AccountCircle),
+    Profile(Screens.ProfileStateScreen.route,Icons.Outlined.AccountCircle),
     News(Screens.NewsScreen.route,Icons.AutoMirrored.Default.List),
     Organisation(Screens.OrganisationScreen.route,Icons.TwoTone.Menu),
     Donation(Screens.DonationScreen.route,Icons.Rounded.Favorite)

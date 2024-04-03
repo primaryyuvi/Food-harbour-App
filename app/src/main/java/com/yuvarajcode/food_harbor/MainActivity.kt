@@ -13,6 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.yuvarajcode.food_harbor.navigation.NavigationHost
 import com.yuvarajcode.food_harbor.presentation.authentication.AuthenticationViewModel
+import com.yuvarajcode.food_harbor.presentation.profile.ProfileViewmodel
 import com.yuvarajcode.food_harbor.presentation.main.news.NewsViewModel
 import com.yuvarajcode.food_harbor.ui.theme.FoodHarborTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +29,13 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val authViewModel : AuthenticationViewModel = hiltViewModel()
                     val newsViewModel : NewsViewModel = hiltViewModel()
-                    NavigationHost(navController = navController, authViewModel = authViewModel,newsViewModel = newsViewModel)
+                    val profileViewmodel : ProfileViewmodel = hiltViewModel()
+                    NavigationHost(
+                        navController = navController,
+                        authViewModel = authViewModel,
+                        profileViewmodel = profileViewmodel
+                        newsViewModel = newsViewModel
+                    )     
                 }
             }
         }
