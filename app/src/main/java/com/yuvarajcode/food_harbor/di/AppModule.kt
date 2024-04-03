@@ -93,12 +93,15 @@ object AppModule {
         return UserRepositoryImpl(
             firestore,
         )
-      @Provides
-      @Singleton
+    }
+
+    @Provides
+    @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .build()
     }
+
     @Provides
     @Singleton
     fun provideUserUseCases(
@@ -107,7 +110,8 @@ object AppModule {
         getUserDetails = GetUserDetails(userRepositoryImpl),
         setUserDetails = SetUserDetails(userRepositoryImpl),
     )
-     @Provides
+
+    @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
@@ -127,4 +131,5 @@ object AppModule {
     @Singleton
     fun provideNewsRepository(newsApiService: NewsApiService): NewsRepository {
         return NewsRepositoryImpl(newsApiService)
+    }
 }

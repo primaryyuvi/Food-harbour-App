@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     NavigationHost(
                         navController = navController,
                         authViewModel = authViewModel,
-                        profileViewmodel = profileViewmodel
+                        profileViewmodel = profileViewmodel,
                         newsViewModel = newsViewModel
                     )     
                 }
