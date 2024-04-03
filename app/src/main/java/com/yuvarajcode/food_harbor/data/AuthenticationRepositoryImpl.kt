@@ -1,5 +1,6 @@
 package com.yuvarajcode.food_harbor.data
 
+import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.yuvarajcode.food_harbor.domain.model.User
