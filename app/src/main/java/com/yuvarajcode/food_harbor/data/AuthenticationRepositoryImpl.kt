@@ -1,6 +1,5 @@
 package com.yuvarajcode.food_harbor.data
 
-import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.yuvarajcode.food_harbor.domain.model.User
@@ -67,17 +66,16 @@ class AuthenticationRepositoryImpl @Inject constructor(
             val authResult = auth.createUserWithEmailAndPassword(email, password).await()
             val userId = authResult.user?.uid
             if (userId != null) {
-                val user = User(
-                    name = name,
-                    userName = username,
-                    phoneNumber = phoneNumber,
-                    email = email,
-                    userId = userId,
-                    password = password,
-                    profilePictureUrl = "",
-                    isUser = isUser
-                )
-                firestore.collection("users").document(userId).set(user).await()
+                val user = mutableMapOf<String,Any>()
+                user["userId"] = userId
+                user["name"] = name
+                user["userName"] = username
+                user["profilePictureUrl"] = ""
+                user["password"] = password
+                user["email"] = email
+                user["phoneNumber"] = phoneNumber
+                user["isUser"] = isUser
+                firestore.collection("users").document(userId).set(user as Map<String, Any>).await()
                 emit(ResponseState.Success(true))
             } else {
                 emit(ResponseState.Error("User ID is null after registration"))

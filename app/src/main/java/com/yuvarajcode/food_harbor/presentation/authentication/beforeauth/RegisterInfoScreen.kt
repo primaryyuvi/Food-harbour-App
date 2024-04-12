@@ -1,5 +1,6 @@
 package com.yuvarajcode.food_harbor.presentation.authentication.beforeauth
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -73,6 +74,9 @@ fun RegisterInfoButtons(
     val isClickedForOrg = remember {
         mutableStateOf(false)
     }
+    val isUser = remember {
+        mutableStateOf(false)
+    }
     Column (
         modifier = Modifier
             .background(Color.White, RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
@@ -84,7 +88,7 @@ fun RegisterInfoButtons(
             onClick = {
                 isClickedForIndi.value = true
                 isClickedForOrg.value = false
-                authViewModel.isUserOrNot(true)
+                Log.d("RegisterInfoScreen", "RegisterInfoButtons: ${authViewModel.isUserState}")
             },
             modifier = Modifier.padding(16.dp),
             colors = CardDefaults.cardColors(
@@ -120,7 +124,7 @@ fun RegisterInfoButtons(
             onClick = {
                 isClickedForIndi.value = false
                 isClickedForOrg.value = true
-                authViewModel.isUserOrNot(false)
+                Log.d("RegisterInfoScreen", "RegisterInfoButtons: ${authViewModel.isUserState}")
             },
             modifier = Modifier.padding(16.dp),
             colors = CardDefaults.cardColors(
@@ -152,6 +156,9 @@ fun RegisterInfoButtons(
         }
         Button(
             onClick = {
+                isUser.value = isClickedForIndi.value
+                Log.d("RegisterInfoScreen", "RegisterInfoButtons: ${isUser.value}")
+                authViewModel.isUserOrNot(isUser.value)
                 navController.navigate(Screens.RegisterScreen.route){
                     launchSingleTop = true
                 }

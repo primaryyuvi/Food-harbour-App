@@ -9,5 +9,5 @@ import androidx.compose.ui.platform.LocalContext
 fun ToastForResponseState(
     message: String
 ) {
-    makeText(LocalContext.current, message, Toast.LENGTH_LONG).show()
+    makeText(LocalContext.current, "From error : $message", Toast.LENGTH_LONG).show()
 }

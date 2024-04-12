@@ -1,6 +1,7 @@
 package com.yuvarajcode.food_harbor.data
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
 import com.yuvarajcode.food_harbor.domain.model.User
 import com.yuvarajcode.food_harbor.domain.repository.UserRepository
 import com.yuvarajcode.food_harbor.utilities.ResponseState
@@ -20,7 +21,7 @@ class UserRepositoryImpl @Inject constructor(
         val snapShotListener = firestore.collection("users")
             .document(userId)
             .addSnapshotListener { snapshot, error ->
-                val response = if (snapshot != null) {
+                val response = if (snapshot != null ) {
                     val userDetails = snapshot.toObject(User::class.java)
                     ResponseState.Success<User>(userDetails!!)
                 } else {

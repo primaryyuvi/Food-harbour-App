@@ -1,5 +1,6 @@
 package com.yuvarajcode.food_harbor.presentation.authentication.beforeauth
 
+import android.util.Log
 import android.view.animation.OvershootInterpolator
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -30,6 +31,7 @@ fun SplashScreen1(
     viewModel: AuthenticationViewModel
 ) {
     val authValue = viewModel.isUserAuthenticated
+    Log.d("SplashScreen1", "SplashScreen1: $authValue")
     val scale = remember {
             Animatable(0f)
     }

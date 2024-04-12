@@ -150,7 +150,7 @@ fun LoginButton(
                 )
             }
             is ResponseState.Success -> {
-                if(response.data){
+                if(response.data == true){
                     LaunchedEffect(key1 = true) {
                         navController.navigate(Screens.HomeScreen.route) {
                             popUpTo(Screens.LoginScreen.route) {
@@ -159,8 +159,12 @@ fun LoginButton(
                         }
                     }
                 }
-                else{
+                else if (response.data == false){
                     ToastForResponseState(message = "Sign in failed!!!")
+                }
+                else
+                {
+
                 }
             }
             is ResponseState.Error -> {
