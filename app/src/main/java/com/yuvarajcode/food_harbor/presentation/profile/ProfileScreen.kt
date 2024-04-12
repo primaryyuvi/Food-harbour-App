@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -46,6 +47,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.yuvarajcode.food_harbor.R
 import com.yuvarajcode.food_harbor.domain.model.User
+import com.yuvarajcode.food_harbor.presentation.authentication.AuthenticationViewModel
 import com.yuvarajcode.food_harbor.presentation.main.BottomNavigation
 import com.yuvarajcode.food_harbor.presentation.main.BottomNavigationScreens
 import com.yuvarajcode.food_harbor.utilities.ResponseState
@@ -56,22 +58,31 @@ import com.yuvarajcode.food_harbor.utilities.ToastForResponseState
 @Composable
 fun ProfileStateScreen(
     navController : NavController,
-    profileViewmodel: ProfileViewmodel
+    profileViewmodel: ProfileViewmodel,
+    authenticationViewModel: AuthenticationViewModel
 ){
+    profileViewmodel.getUserDetails()
     when(val getData = profileViewmodel.getData.value){
         is ResponseState.Success -> {
             val obj = getData.data
+            Log.d("Obj", "$obj")
             if (obj != null) {
                 profileViewmodel.realObj = obj
                 ProfileScreen(
                     navController = navController,
                     profileViewmodel = profileViewmodel,
-                    obj = obj
+                    obj = obj,
+                    authenticationViewModel = authenticationViewModel
                 )
+            }
+            else
+            {
+                Toast.makeText(LocalContext.current, "No data found", Toast.LENGTH_LONG).show()
             }
         }
         is ResponseState.Error -> {
             ToastForResponseState(message =getData.message)
+            Log.d("ProfileStateScreen", "ProfileStateScreen: ${getData.message}")
         }
         is ResponseState.Loading -> {
             CircularProgressIndicator()
@@ -82,7 +93,8 @@ fun ProfileStateScreen(
 fun ProfileScreen(
     navController: NavController,
     profileViewmodel: ProfileViewmodel,
-    obj : User
+    obj : User,
+    authenticationViewModel: AuthenticationViewModel
 ) {
     Scaffold(
         topBar = {
@@ -103,7 +115,61 @@ fun ProfileScreen(
             ) {
                 ProfileViewCard(obj,navController,profileViewmodel)
                 Spacer(modifier = Modifier.height(30.dp))
+                Log.d("ProfileScreen", "ProfileScreen: $obj")
                 DonationHistoryCard(navController)
+                Spacer(modifier = Modifier.height(200.dp))
+                SignOutButton(authenticationViewModel,navController)
+            }
+        }
+    }
+}
+
+@Composable
+fun SignOutButton(
+    authenticationViewModel: AuthenticationViewModel,
+    navController: NavController
+) {
+    Button(
+        onClick = {
+            authenticationViewModel.signOut()
+        },
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .height(48.dp),
+        shape = RoundedCornerShape(12.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(red = 7, green = 31, blue = 27, alpha = 255)
+        )
+    ) {
+        Text(
+            text = "Sign Out",
+            style = MaterialTheme.typography.bodyLarge,
+            color = Color.White,
+            fontWeight = FontWeight.Bold
+        )
+        when(val signOut = authenticationViewModel.signOut.value){
+            is ResponseState.Success -> {
+                when (signOut.data) {
+                    true -> {
+                        ToastForResponseState(message = "Sign Out Successfully")
+                        navController.navigate(Screens.LoginScreen.route){
+                            popUpTo(Screens.ProfileStateScreen.route){
+                                inclusive = true
+                            }
+                        }
+                    }
+                    false -> ToastForResponseState(message = "Sign Out Failed")
+                    else -> {
+
+                    }
+                }
+            }
+            is ResponseState.Error -> {
+                ToastForResponseState(message = signOut.message)
+            }
+            is ResponseState.Loading -> {
+                CircularProgressIndicator()
             }
         }
     }

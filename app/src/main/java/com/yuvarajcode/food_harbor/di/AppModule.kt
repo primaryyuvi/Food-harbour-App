@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.yuvarajcode.food_harbor.data.AuthenticationRepositoryImpl
+import com.yuvarajcode.food_harbor.data.DonationRepositoryImpl
 import com.yuvarajcode.food_harbor.data.UserRepositoryImpl
 import com.yuvarajcode.food_harbor.domain.repository.AuthenticationRepository
 import com.yuvarajcode.food_harbor.domain.repository.UserRepository
@@ -17,8 +18,16 @@ import com.yuvarajcode.food_harbor.domain.usecases.userUseCases.GetUserDetails
 import com.yuvarajcode.food_harbor.domain.usecases.userUseCases.SetUserDetails
 import com.yuvarajcode.food_harbor.domain.usecases.userUseCases.UserUseCases
 import com.yuvarajcode.food_harbor.data.NewsRepositoryImpl
+import com.yuvarajcode.food_harbor.domain.repository.DonationRepository
 import com.yuvarajcode.food_harbor.domain.repository.NewsApiService
 import com.yuvarajcode.food_harbor.domain.repository.NewsRepository
+import com.yuvarajcode.food_harbor.domain.usecases.DonationUseCases.AddDonation
+import com.yuvarajcode.food_harbor.domain.usecases.DonationUseCases.DeleteDonation
+import com.yuvarajcode.food_harbor.domain.usecases.DonationUseCases.DonationUseCases
+import com.yuvarajcode.food_harbor.domain.usecases.DonationUseCases.GetDonationDetails
+import com.yuvarajcode.food_harbor.domain.usecases.DonationUseCases.GetDonationList
+import com.yuvarajcode.food_harbor.domain.usecases.DonationUseCases.GetDonationListByUserId
+import com.yuvarajcode.food_harbor.domain.usecases.DonationUseCases.UpdateDonationStatus
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -122,4 +131,27 @@ object AppModule {
     fun provideNewsRepository(newsApiService: NewsApiService): NewsRepository {
         return NewsRepositoryImpl(newsApiService)
     }
+
+    @Provides
+    @Singleton
+    fun provideDonationRepository(
+        firestore: FirebaseFirestore,
+    ): DonationRepository {
+        return DonationRepositoryImpl(
+            firestore,
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideDonationUseCases(
+        donationRepositoryImpl: DonationRepository,
+    ) = DonationUseCases(
+        getDonationList = GetDonationList(donationRepositoryImpl),
+        getDonationListByUserId = GetDonationListByUserId(donationRepositoryImpl),
+        addDonation = AddDonation(donationRepositoryImpl),
+        deleteDonation = DeleteDonation(donationRepositoryImpl),
+        getDonationDetails = GetDonationDetails(donationRepositoryImpl),
+        updateDonationStatus = UpdateDonationStatus(donationRepositoryImpl)
+    )
 }

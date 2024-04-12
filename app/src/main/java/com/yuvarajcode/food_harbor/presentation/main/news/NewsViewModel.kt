@@ -21,7 +21,7 @@ class NewsViewModel @Inject constructor(
     init {
         getNewsDetails()
     }
-    fun getNewsDetails() {
+    private fun getNewsDetails() {
         viewModelScope.launch {
             try {
                 val listOfNews = newsRepository.getNews()

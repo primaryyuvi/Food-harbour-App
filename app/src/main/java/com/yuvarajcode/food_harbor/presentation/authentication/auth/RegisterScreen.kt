@@ -1,5 +1,6 @@
 package com.yuvarajcode.food_harbor.presentation.authentication.auth
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -41,6 +42,7 @@ fun RegisterScreen(
     navController: NavController,
     authViewModel: AuthenticationViewModel
 ) {
+    Log.d("RegisterScreen", "RegisterScreen: ${authViewModel.isUserState}")
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,7 +55,7 @@ fun RegisterScreen(
         Spacer(modifier = Modifier.height(100.dp))
         RegisterHeading()
         RegisterForm(
-            isUser = authViewModel.isUserState.value,
+            isUser = authViewModel.isUserState,
             navController = navController,
             authViewModel = authViewModel
         )
@@ -98,6 +100,7 @@ fun RegisterAccountButton(
 ) {
         TextButton(
             onClick = {
+                Log.d("RegisterScreen", "RegisterAccountButton: ${authViewModel.isUserState}")
                 authViewModel.register(name, userName, phoneNumber, email, password)
             },
             modifier = Modifier
@@ -121,7 +124,7 @@ fun RegisterAccountButton(
                 }
 
                 is ResponseState.Success -> {
-                        if (response.data) {
+                        if (response.data == true) {
                             LaunchedEffect(key1 = true) {
                                 navController.navigate(Screens.HomeScreen.route) {
                                     popUpTo(Screens.RegisterScreen.route) {
@@ -130,8 +133,12 @@ fun RegisterAccountButton(
                                 }
                             }
                         }
-                    else{
+                    else if (response.data == false){
                         ToastForResponseState(message = "Registration failed to store in firebase!!!")
+                    }
+                    else
+                    {
+
                     }
                 }
                 is ResponseState.Error -> {

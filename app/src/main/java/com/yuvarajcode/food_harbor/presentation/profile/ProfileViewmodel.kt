@@ -27,10 +27,8 @@ class ProfileViewmodel @Inject constructor(
 
     var realObj : User = User()
 
-    init {
-        getUserDetails()
-    }
-    private fun getUserDetails(){
+
+     fun getUserDetails(){
         viewModelScope.launch {
             if(userId!= null) {
                 userUseCases.getUserDetails(userId).collect {

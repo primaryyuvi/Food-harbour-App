@@ -1,12 +1,16 @@
 package com.yuvarajcode.food_harbor.domain.model
 
+import com.google.firebase.firestore.PropertyName
+
 data class User(
-    val userId: String="" ,
-    val name: String="",
-    val userName: String="",
-    val profilePictureUrl: String= "",
-    val password : String="",
-    val email : String="",
-    val phoneNumber : String="",
-    val isUser : Boolean = false
+    var userId: String = "" ,
+    var name: String = "",
+    var userName: String="",
+    var profilePictureUrl: String= "",
+    var password : String="",
+    var email : String="",
+    @get: PropertyName ("isUser")
+    @set: PropertyName ("isUser")
+    var isUser : Boolean = false,
+    var phoneNumber : String="",
 )

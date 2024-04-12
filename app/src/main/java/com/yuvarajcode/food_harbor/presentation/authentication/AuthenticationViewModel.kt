@@ -16,21 +16,22 @@ class AuthenticationViewModel @Inject constructor(
 ) : ViewModel() {
     val isUserAuthenticated get() = authUseCases.isUserAuthenticated()
 
-    private val _signIn = mutableStateOf<ResponseState<Boolean>>(ResponseState.Success(false))
-    val signIn : State<ResponseState<Boolean>> = _signIn
+    val authState get() = authUseCases.getAuthState()
 
-    private val _signOut = mutableStateOf<ResponseState<Boolean>>(ResponseState.Success(false))
-    val signOut: State<ResponseState<Boolean>> = _signOut
+    private val _signIn = mutableStateOf<ResponseState<Boolean?>>(ResponseState.Success(null))
+    val signIn : State<ResponseState<Boolean?>> = _signIn
 
-    private val _register = mutableStateOf<ResponseState<Boolean>>(ResponseState.Success(false))
-    val register : State<ResponseState<Boolean>> = _register
+    private val _signOut = mutableStateOf<ResponseState<Boolean?>>(ResponseState.Success(null))
+    val signOut: State<ResponseState<Boolean?>> = _signOut
 
-    private val isUser = mutableStateOf(false)
-    val isUserState : State<Boolean> = isUser
+    private val _register = mutableStateOf<ResponseState<Boolean?>>(ResponseState.Success(null))
+    val register : State<ResponseState<Boolean?>> = _register
+
+    var isUserState : Boolean = false
     fun isUserOrNot(
         value : Boolean
     ){
-        isUser.value = value
+        isUserState = value
     }
 
     fun signIn(email: String, password: String) {
@@ -38,6 +39,7 @@ class AuthenticationViewModel @Inject constructor(
             authUseCases.fireBaseSignIn(email, password).collect{
                 _signIn.value = it
             }
+            _signOut.value = ResponseState.Success(null)
         }
     }
 
@@ -54,9 +56,11 @@ class AuthenticationViewModel @Inject constructor(
 
     fun register(name: String, userName: String, phoneNumber: String, email: String, password: String) {
         viewModelScope.launch {
-            authUseCases.firebaseRegister(name, userName, phoneNumber, email, password,isUserState.value).collect{
+            authUseCases.firebaseRegister(name, userName, phoneNumber, email, password,isUserState).collect{
                 _register.value = it
             }
+            _signOut.value = ResponseState.Success(false)
         }
     }
+
 }
