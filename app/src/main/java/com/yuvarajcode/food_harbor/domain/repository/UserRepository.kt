@@ -6,5 +6,18 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     fun getUserDetails(userId : String) : Flow<ResponseState<User>>
-    fun setUserDetails(userId: String,username : String,email : String,password : String,profilePicture : String,phoneNumber : String) : Flow<ResponseState<Boolean>>
+    fun setUserDetails(
+        userId: String,
+        username : String,
+        email : String,
+        password : String,
+        profilePicture : String,
+        phoneNumber : String,
+        weeklyGoal : Int,
+        monthlyGoal : Int,
+        yearlyGoal : Int,
+        missionStatement : String,
+        name : String
+    ) : Flow<ResponseState<Boolean>>
+    suspend fun getProfilePic(userId : String) : Flow<ResponseState<String>>
 }

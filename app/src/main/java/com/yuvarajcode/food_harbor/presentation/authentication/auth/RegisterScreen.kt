@@ -1,5 +1,6 @@
 package com.yuvarajcode.food_harbor.presentation.authentication.auth
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,9 +14,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -23,14 +31,20 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.yuvarajcode.food_harbor.presentation.authentication.AuthenticationViewModel
 import com.yuvarajcode.food_harbor.utilities.ResponseState
@@ -40,9 +54,9 @@ import com.yuvarajcode.food_harbor.utilities.ToastForResponseState
 @Composable
 fun RegisterScreen(
     navController: NavController,
-    authViewModel: AuthenticationViewModel
+    authViewModel: AuthenticationViewModel = hiltViewModel()
 ) {
-    Log.d("RegisterScreen", "RegisterScreen: ${authViewModel.isUserState}")
+    Log.d("RegisterScreen", "RegisterScreen,isUser: ${authViewModel.isUserState}")
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -100,7 +114,7 @@ fun RegisterAccountButton(
 ) {
         TextButton(
             onClick = {
-                Log.d("RegisterScreen", "RegisterAccountButton: ${authViewModel.isUserState}")
+                Log.d("RegisterScreen", "RegisterAccountButton,isUser: ${authViewModel.isUserState}")
                 authViewModel.register(name, userName, phoneNumber, email, password)
             },
             modifier = Modifier
@@ -118,20 +132,13 @@ fun RegisterAccountButton(
             )
             when(val response = authViewModel.register.value) {
                 is ResponseState.Loading -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.fillMaxSize()
-                    )
+                    CircularProgressIndicator()
                 }
 
                 is ResponseState.Success -> {
+                       ToastForResponseState(message ="Registration successful!")
                         if (response.data == true) {
-                            LaunchedEffect(key1 = true) {
-                                navController.navigate(Screens.HomeScreen.route) {
-                                    popUpTo(Screens.RegisterScreen.route) {
-                                        inclusive = true
-                                    }
-                                }
-                            }
+                            authViewModel.streamLogin()
                         }
                     else if (response.data == false){
                         ToastForResponseState(message = "Registration failed to store in firebase!!!")
@@ -144,12 +151,40 @@ fun RegisterAccountButton(
                 is ResponseState.Error -> {
                     ToastForResponseState(message = response.message)
                 }
+
+                ResponseState.Initial -> {}
+            }
+            when(val response = authViewModel.chatLogin.value)
+            {
+                is ResponseState.Error ->
+                {
+                    ToastForResponseState(message = "Chat login failed!")
+                }
+                ResponseState.Loading ->
+                    CircularProgressIndicator()
+                is ResponseState.Success -> {
+                    val result = response.data
+                    if (result == true) {
+                        navController.navigate(Screens.HomeScreen.route) {
+                            popUpTo(Screens.RegisterScreen.route) {
+                                inclusive = true
+                            }
+                        }
+                    } else if (result == false)
+                        ToastForResponseState(message = "Chat Login Fail!!")
+                    else if (result == null) {
+
+                    }
+                }
+
+                ResponseState.Initial -> {}
             }
         }
 }
 
 
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun RegisterForm(
     isUser : Boolean,
@@ -171,6 +206,9 @@ fun RegisterForm(
     val userName = remember {
         mutableStateOf("")
     }
+    var showPassword by remember {
+        mutableStateOf(false)
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -191,6 +229,8 @@ fun RegisterForm(
                     unfocusedBorderColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                     unfocusedLabelColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                     focusedLabelColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
+                    focusedTextColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
+                    unfocusedTextColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                 ),
                 modifier = Modifier
             )
@@ -206,6 +246,8 @@ fun RegisterForm(
                     unfocusedBorderColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                     unfocusedLabelColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                     focusedLabelColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
+                    focusedTextColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
+                    unfocusedTextColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                 ),
                 modifier = Modifier
             )
@@ -220,6 +262,8 @@ fun RegisterForm(
                 unfocusedBorderColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                 unfocusedLabelColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                 focusedLabelColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
+                focusedTextColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
+                unfocusedTextColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
             ),
             modifier = Modifier
         )
@@ -233,8 +277,11 @@ fun RegisterForm(
                 unfocusedBorderColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                 unfocusedLabelColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                 focusedLabelColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
+                focusedTextColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
+                unfocusedTextColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
             ),
-            modifier = Modifier
+            modifier = Modifier,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
         OutlinedTextField(
             value = email.value,
@@ -246,8 +293,11 @@ fun RegisterForm(
                 unfocusedBorderColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                 unfocusedLabelColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                 focusedLabelColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
+                focusedTextColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
+                unfocusedTextColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
             ),
-            modifier = Modifier
+            modifier = Modifier,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
         OutlinedTextField(
             value = password.value,
@@ -259,8 +309,33 @@ fun RegisterForm(
                 unfocusedBorderColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                 unfocusedLabelColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
                 focusedLabelColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
+                focusedTextColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
+                unfocusedTextColor = Color(red = 7, green = 31, blue = 27, alpha = 255),
             ),
-            modifier = Modifier
+            modifier = Modifier,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            visualTransformation = if(showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                if (password.value.isNotEmpty()) {
+                    IconButton(
+                        onClick = {
+                            showPassword = !showPassword
+                        }
+                    )
+                    {
+                         if(showPassword)
+                        Icon(imageVector = Icons.Filled.Visibility,
+                        contentDescription = "Password Visibility",
+                        tint = Color(red = 7, green = 31, blue = 27, alpha = 255)
+                        )
+                        else
+                        Icon(imageVector = Icons.Filled.VisibilityOff,
+                        contentDescription = "Password Visibility",
+                        tint = Color(red = 7, green = 31, blue = 27, alpha = 255)
+                        )
+                    }
+                }
+            }
         )
 
         Spacer(modifier = Modifier.height(16.dp))

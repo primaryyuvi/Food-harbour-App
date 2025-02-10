@@ -6,5 +6,5 @@ import javax.inject.Inject
 class UpdateDonationStatus @Inject constructor(
     private val donationRepository: DonationRepository
 ){
-    suspend operator fun invoke(id: String, status: Boolean?) = donationRepository.updateDonationStatus(id, status)
+   // suspend operator fun invoke(id: String, status: String?) = donationRepository.updateDonationStatus(id, status)
 }

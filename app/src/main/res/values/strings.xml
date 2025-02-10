@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Food-Harbor</string>
     <string name="web_client_id">502959066191-evtot7b9ah87oeh8urgonnik9a03be1g.apps.googleusercontent.com</string>
+    <string name="chat_api_key">z8h2jx7usf5f</string>
+    <string name="jvm_token">yaedepp6e5d9xrnpcm5v3s478bcs34pazryucfyy8y7egsmtfk4hf8zxauzck4mk</string>
 </resources>

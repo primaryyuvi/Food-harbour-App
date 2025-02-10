@@ -12,5 +12,22 @@ class SetUserDetails @Inject constructor(
         email : String,
         password:String,
         profilePicture:String,
-        phone : String) = userRepository.setUserDetails(userId, username, email, password, profilePicture ,phone)
+        name : String,
+        missionStatement : String,
+        weeklyGoal : Int,
+        monthlyGoal : Int,
+        yearlyGoal : Int,
+        phone : String) = userRepository.setUserDetails(
+        userId = userId,
+        username = username,
+        email = email,
+        password = password,
+        profilePicture = profilePicture,
+        phoneNumber = phone,
+        weeklyGoal = weeklyGoal,
+        monthlyGoal = monthlyGoal,
+        yearlyGoal = yearlyGoal,
+        missionStatement = missionStatement,
+        name = name
+    )
 }

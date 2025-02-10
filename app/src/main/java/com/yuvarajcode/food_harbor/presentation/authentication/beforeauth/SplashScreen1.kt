@@ -22,13 +22,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.yuvarajcode.food_harbor.presentation.authentication.AuthenticationViewModel
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen1(
     navController: NavController,
-    viewModel: AuthenticationViewModel
+    viewModel: AuthenticationViewModel = hiltViewModel()
 ) {
     val authValue = viewModel.isUserAuthenticated
     Log.d("SplashScreen1", "SplashScreen1: $authValue")
@@ -47,6 +48,7 @@ fun SplashScreen1(
         )
         delay(1000)
         if (authValue) {
+            viewModel.streamLogin()
             navController.navigate(Screens.HomeScreen.route){
                 popUpTo(Screens.SplashScreen1.route){
                     inclusive = true

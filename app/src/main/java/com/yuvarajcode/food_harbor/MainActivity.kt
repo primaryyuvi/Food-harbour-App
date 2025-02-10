@@ -15,12 +15,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.yuvarajcode.food_harbor.navigation.NavigationHost
 import com.yuvarajcode.food_harbor.presentation.authentication.AuthenticationViewModel
+import com.yuvarajcode.food_harbor.presentation.main.chat.ChatViewModel
 import com.yuvarajcode.food_harbor.presentation.main.donation.form.DonationFormViewModel
 import com.yuvarajcode.food_harbor.presentation.main.donation.user.DonationUserScreenViewModel
 import com.yuvarajcode.food_harbor.presentation.main.donation.DonationViewModel
 import com.yuvarajcode.food_harbor.presentation.main.donation.organization.DonationOrgViewModel
+import com.yuvarajcode.food_harbor.presentation.main.home.HomeScreenViewModel
 import com.yuvarajcode.food_harbor.presentation.profile.ProfileViewmodel
 import com.yuvarajcode.food_harbor.presentation.main.news.NewsViewModel
+import com.yuvarajcode.food_harbor.presentation.profile.donationHistory.DonationHistoryViewModel
 import com.yuvarajcode.food_harbor.ui.theme.FoodHarborTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,6 +44,9 @@ class MainActivity : ComponentActivity() {
                     val donationUserScreenViewModel : DonationUserScreenViewModel = hiltViewModel()
                     val donationFormViewModel : DonationFormViewModel = hiltViewModel()
                     val donationOrgViewModel : DonationOrgViewModel = hiltViewModel()
+                    val homeScreenViewModel : HomeScreenViewModel = hiltViewModel()
+                    val donationHistoryViewModel : DonationHistoryViewModel = hiltViewModel()
+                    val chatViewModel : ChatViewModel = hiltViewModel()
                     NavigationHost(
                         navController = navController,
                         authViewModel = authViewModel,
@@ -49,7 +55,10 @@ class MainActivity : ComponentActivity() {
                         donationViewModel = donationViewModel,
                         donationUserScreenViewModel = donationUserScreenViewModel,
                         donationFormViewModel = donationFormViewModel,
-                        donationOrgViewModel = donationOrgViewModel
+                        donationOrgViewModel = donationOrgViewModel,
+                        homeScreenViewModel = homeScreenViewModel,
+                        donationHistoryViewModel = donationHistoryViewModel,
+                        chatViewModel = chatViewModel
                     )     
                 }
             }
