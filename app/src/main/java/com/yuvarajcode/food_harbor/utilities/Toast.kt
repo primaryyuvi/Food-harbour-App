@@ -1,5 +1,6 @@
 package com.yuvarajcode.food_harbor.utilities
 
+import android.content.Context
 import android.widget.Toast
 import android.widget.Toast.makeText
 import androidx.compose.runtime.Composable
@@ -9,5 +10,5 @@ import androidx.compose.ui.platform.LocalContext
 fun ToastForResponseState(
     message: String
 ) {
-    makeText(LocalContext.current, "From error : $message", Toast.LENGTH_LONG).show()
+    makeText(LocalContext.current, message, Toast.LENGTH_LONG).show()
 }

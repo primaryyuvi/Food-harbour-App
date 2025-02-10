@@ -14,18 +14,25 @@ import com.yuvarajcode.food_harbor.presentation.authentication.beforeauth.Screen
 import com.yuvarajcode.food_harbor.presentation.authentication.beforeauth.SplashScreen1
 import com.yuvarajcode.food_harbor.presentation.main.donation.DonationScreen
 import com.yuvarajcode.food_harbor.presentation.main.donation.DonationViewModel
-import com.yuvarajcode.food_harbor.presentation.main.HomeScreen
+import com.yuvarajcode.food_harbor.presentation.main.home.HomeScreen
 import com.yuvarajcode.food_harbor.presentation.main.news.NewsScreen
 import com.yuvarajcode.food_harbor.presentation.main.chat.ChatScreen
-import com.yuvarajcode.food_harbor.presentation.main.donation.form.DonationForm
+import com.yuvarajcode.food_harbor.presentation.main.chat.ChatViewModel
+import com.yuvarajcode.food_harbor.presentation.main.chat.MessageScreen
+import com.yuvarajcode.food_harbor.presentation.main.donation.form.DonateFormContactDetails
+import com.yuvarajcode.food_harbor.presentation.main.donation.form.DonateFormPickup
+import com.yuvarajcode.food_harbor.presentation.main.donation.form.DonateFormReview
+import com.yuvarajcode.food_harbor.presentation.main.donation.form.DonationFormScreen
 import com.yuvarajcode.food_harbor.presentation.main.donation.form.DonationFormViewModel
 import com.yuvarajcode.food_harbor.presentation.main.donation.organization.DonationOrgViewModel
 import com.yuvarajcode.food_harbor.presentation.main.donation.user.DonationUserScreenViewModel
-import com.yuvarajcode.food_harbor.presentation.profile.DonationHistoryScreen
-import com.yuvarajcode.food_harbor.presentation.profile.ProfileEditScreen
+import com.yuvarajcode.food_harbor.presentation.main.home.HomeScreenViewModel
+import com.yuvarajcode.food_harbor.presentation.profile.donationHistory.DonationHistoryScreen
+import com.yuvarajcode.food_harbor.presentation.profile.edit.ProfileEditScreen
 import com.yuvarajcode.food_harbor.presentation.main.news.NewsViewModel
-import com.yuvarajcode.food_harbor.presentation.profile.ProfileStateScreen
+import com.yuvarajcode.food_harbor.presentation.profile.main.ProfileStateScreen
 import com.yuvarajcode.food_harbor.presentation.profile.ProfileViewmodel
+import com.yuvarajcode.food_harbor.presentation.profile.donationHistory.DonationHistoryViewModel
 import com.yuvarajcode.food_harbor.utilities.Screens
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -38,7 +45,10 @@ fun NavigationHost(
     donationViewModel: DonationViewModel,
     donationUserScreenViewModel: DonationUserScreenViewModel,
     donationFormViewModel: DonationFormViewModel,
-    donationOrgViewModel: DonationOrgViewModel
+    donationOrgViewModel: DonationOrgViewModel,
+    homeScreenViewModel: HomeScreenViewModel,
+    donationHistoryViewModel: DonationHistoryViewModel,
+    chatViewModel: ChatViewModel
 ){
     NavHost(
         navController = navController,
@@ -57,13 +67,13 @@ fun NavigationHost(
             RegisterScreen(navController = navController, authViewModel)
         }
         composable(Screens.LoginScreen.route){
-            LoginScreen(navController = navController, authViewModel)
+            LoginScreen(navController = navController, authViewModel,chatViewModel)
         }
         composable(Screens.HomeScreen.route){
-           HomeScreen(navController = navController)
+           HomeScreen(navController = navController,homeScreenViewModel)
         }
         composable(Screens.DonationScreen.route){
-            val isUser = profileViewmodel.realObj.isUser
+            val isUser = homeScreenViewModel.userData.isUser
             DonationScreen(
                 navController = navController,
                 donationUserScreenViewModel,
@@ -72,7 +82,10 @@ fun NavigationHost(
             )
         }
         composable(Screens.ChatScreen.route){
-            ChatScreen(navController)
+            ChatScreen(
+                navController,
+                chatViewModel,
+            )
         }
         composable(Screens.ProfileStateScreen.route){
             ProfileStateScreen(navController = navController,profileViewmodel = profileViewmodel, authenticationViewModel = authViewModel)
@@ -84,11 +97,29 @@ fun NavigationHost(
             ProfileEditScreen(navController = navController,profileViewmodel = profileViewmodel)
         }
         composable(Screens.DonationHistoryScreen.route){
-            DonationHistoryScreen()
+            val isUser = homeScreenViewModel.userData.isUser
+            DonationHistoryScreen(
+                navController,
+                isUser,
+                donationHistoryViewModel
+            )
         }
         composable(Screens.DonationFormScreen.route){
-            DonationForm(navController = navController, donationFormViewModel)
+            DonationFormScreen(navController = navController, donationFormViewModel)
 //            DonationForm()
+        }
+        composable(Screens.MessageScreen.route){
+            val channelId = chatViewModel.channelId
+            MessageScreen(navController,channelId)
+        }
+        composable(Screens.DonationFormPickup.route){
+            DonateFormPickup(donationFormViewModel,navController)
+        }
+        composable(Screens.DonationFormReview.route){
+            DonateFormReview( navController,donationFormViewModel)
+        }
+        composable(Screens.DonationFormContactDetails.route){
+            DonateFormContactDetails(navController, donationFormViewModel)
         }
     }
 }

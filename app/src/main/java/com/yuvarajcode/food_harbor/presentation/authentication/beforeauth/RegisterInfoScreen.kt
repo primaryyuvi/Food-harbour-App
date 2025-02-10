@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.yuvarajcode.food_harbor.presentation.authentication.AuthenticationViewModel
 import com.yuvarajcode.food_harbor.utilities.Screens
@@ -39,7 +40,7 @@ import com.yuvarajcode.food_harbor.utilities.Screens
 @Composable
 fun RegisterInfoScreen(
     navController: NavController,
-    authViewModel : AuthenticationViewModel
+    authViewModel : AuthenticationViewModel = hiltViewModel()
 ){
     Box (
         modifier = Modifier
@@ -88,7 +89,6 @@ fun RegisterInfoButtons(
             onClick = {
                 isClickedForIndi.value = true
                 isClickedForOrg.value = false
-                Log.d("RegisterInfoScreen", "RegisterInfoButtons: ${authViewModel.isUserState}")
             },
             modifier = Modifier.padding(16.dp),
             colors = CardDefaults.cardColors(
@@ -124,7 +124,6 @@ fun RegisterInfoButtons(
             onClick = {
                 isClickedForIndi.value = false
                 isClickedForOrg.value = true
-                Log.d("RegisterInfoScreen", "RegisterInfoButtons: ${authViewModel.isUserState}")
             },
             modifier = Modifier.padding(16.dp),
             colors = CardDefaults.cardColors(
@@ -157,8 +156,8 @@ fun RegisterInfoButtons(
         Button(
             onClick = {
                 isUser.value = isClickedForIndi.value
-                Log.d("RegisterInfoScreen", "RegisterInfoButtons: ${isUser.value}")
                 authViewModel.isUserOrNot(isUser.value)
+                Log.d("RegisterInfoScreen", "RegisterInfoButtons,IsUser: ${authViewModel.isUserState}")
                 navController.navigate(Screens.RegisterScreen.route){
                     launchSingleTop = true
                 }

@@ -15,11 +15,11 @@ import javax.inject.Inject
 @HiltViewModel
 class DonationViewModel @Inject constructor(
     private val donationUseCases: DonationUseCases,
-    private val auth : FirebaseAuth
+    auth : FirebaseAuth
 ) : ViewModel()
 {
 
-    private val userId = auth.currentUser?.uid
+    private var userId = auth.currentUser?.uid
     private val _donationList = mutableStateOf<ResponseState<List<Donation>>>(ResponseState.Success(emptyList()))
     val donationList : State<ResponseState<List<Donation>>> = _donationList
 
@@ -30,7 +30,10 @@ class DonationViewModel @Inject constructor(
 
 
     init {
-        getDonationList()
+       auth.addAuthStateListener{
+           userId = it.currentUser?.uid
+           getDonationList()
+       }
     }
 
 
@@ -44,14 +47,14 @@ class DonationViewModel @Inject constructor(
         }
     }
 
-    fun getDonationDetails(donationId : String){
-        viewModelScope.launch {
-            if (userId != null) {
-                donationUseCases.getDonationDetails(userId,donationId).collect {
-                    _getDonation.value = it
-                }
-            }
-        }
-    }
+//    fun getDonationDetails(donationId : String){
+//        viewModelScope.launch {
+//            if (userId != null) {
+//                donationUseCases.getDonationDetails(userId!!,donationId).collect {
+//                    _getDonation.value = it
+//                }
+//            }
+//        }
+//    }
 
 }

@@ -1,5 +1,6 @@
 package com.yuvarajcode.food_harbor.presentation.main.news
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -21,14 +22,16 @@ class NewsViewModel @Inject constructor(
     init {
         getNewsDetails()
     }
-    private fun getNewsDetails() {
+    fun getNewsDetails() {
         viewModelScope.launch {
             try {
                 val listOfNews = newsRepository.getNews()
                 val realList = listOfNews.newsAttributes.filterNotNullAttributes()
+                Log.d("NewsViewModel", "getNewsDetails: $realList")
                 _newsState.value = ResponseState.Success(realList)
             } catch (e: Exception) {
                 _newsState.value = ResponseState.Error(e.localizedMessage ?: "An unexpected error occurred")
+                Log.e("NewsViewModel", "getNewsDetails: ${e.localizedMessage}")
             }
         }
     }

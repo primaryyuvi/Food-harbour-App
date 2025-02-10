@@ -1,6 +1,5 @@
 package com.yuvarajcode.food_harbor.domain.usecases.DonationUseCases
 
-import com.yuvarajcode.food_harbor.domain.model.DonationStatus
 import com.yuvarajcode.food_harbor.domain.repository.DonationRepository
 import javax.inject.Inject
 
@@ -17,8 +16,12 @@ class AddDonation @Inject constructor(
         entryDate: String,
         expiryDate: String,
         time: String,
-        status: Boolean?,
-        userId: String
+        status: String,
+        userId: String,
+        id : String,
+        additionalDetails: String,
+        email: String,
+        username: String
     ) = donationRepository.addDonation(
         name,
         description,
@@ -30,6 +33,10 @@ class AddDonation @Inject constructor(
         expiryDate,
         time,
         status,
-        userId
+        userId,
+        id,
+        additionalDetails,
+        email,
+        username
     )
 }

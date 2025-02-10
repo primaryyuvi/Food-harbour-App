@@ -1,5 +1,6 @@
 package com.yuvarajcode.food_harbor.domain.repository
 
+import com.google.firebase.auth.AuthResult
 import com.yuvarajcode.food_harbor.utilities.ResponseState
 import kotlinx.coroutines.flow.Flow
 

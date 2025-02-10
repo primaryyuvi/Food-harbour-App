@@ -14,4 +14,9 @@ sealed class Screens (val route:String){
     data object ChatScreen: Screens("ChatScreen")
     data object DonationScreen: Screens("DonationScreen")
     data object DonationFormScreen : Screens("DonationFormScreen")
+    data object MessageScreen: Screens("MessageScreen")
+    data object DonationFormReview: Screens("DonationFormReview")
+    data object DonationFormPickup: Screens("DonationFormPickup")
+    data object DonationFormFoodDetails : Screens("DonationFormFoodDetails")
+    data object DonationFormContactDetails : Screens("DonationFormReviewDetails")
 }
