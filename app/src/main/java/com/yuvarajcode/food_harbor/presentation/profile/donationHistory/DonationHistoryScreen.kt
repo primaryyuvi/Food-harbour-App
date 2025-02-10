@@ -1,5 +1,6 @@
 package com.yuvarajcode.food_harbor.presentation.profile.donationHistory
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,6 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.yuvarajcode.food_harbor.domain.model.Donation
 import com.yuvarajcode.food_harbor.presentation.profile.main.DonationItem
+import com.yuvarajcode.food_harbor.shared.formatRelativeTime
 import com.yuvarajcode.food_harbor.utilities.ResponseState
 
 @Composable
@@ -88,7 +90,7 @@ fun DonationHistoryScreen(
                             title = donation.name,
                             organization = donation.donateeName,
                             status = donation.status,
-                            date = donation.time
+                            date = formatRelativeTime(donation.time.toLong())
                         )
                     }
                 }
@@ -116,7 +118,7 @@ fun DonationHistoryScreen(
                             title = donation.name,
                             organization = donation.donateeName,
                             status = donation.status,
-                            date = donation.time
+                            date = formatRelativeTime(donation.time.toLong())
                         )
                     }
                 }

@@ -433,6 +433,8 @@ fun QuickActions(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        QuickActionButton(icon = Icons.Default.Edit, text = "Quick Donate"){}
+        QuickActionButton(icon = Icons.Default.DateRange, text = "Schedule"){}
         QuickActionButton(
             icon = Icons.Default.ChatBubble,
             text = "Your Chat",

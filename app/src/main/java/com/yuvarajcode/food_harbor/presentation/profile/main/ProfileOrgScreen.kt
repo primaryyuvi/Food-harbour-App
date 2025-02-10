@@ -28,6 +28,7 @@ import coil.compose.AsyncImage
 import com.yuvarajcode.food_harbor.domain.model.Donation
 import com.yuvarajcode.food_harbor.presentation.authentication.AuthenticationViewModel
 import com.yuvarajcode.food_harbor.presentation.profile.ProfileViewmodel
+import com.yuvarajcode.food_harbor.shared.formatRelativeTime
 import com.yuvarajcode.food_harbor.utilities.ResponseState
 import com.yuvarajcode.food_harbor.utilities.Screens
 
@@ -304,7 +305,7 @@ private fun RecentDonationsSectionForOrg(
                     title = donation.name,
                     organization = donation.donateeName,
                     status = donation.status,
-                    date = donation.time
+                    date = formatRelativeTime(donation.time.toLong())
                 )
             }
         }
